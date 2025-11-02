@@ -1,409 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Smart Home Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Material Icons -->
+  <title>Smart Home Dashboard</title>
+
+  <!-- Material Icons & Fonts -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --primary-color: #4361ee;
-      --secondary-color: #3f37c9;
       --success-color: #4cc9f0;
       --warning-color: #f72585;
-      --info-color: #4895ef;
       --dark-color: #212121;
-      --light-color: #f8f9fa;
       --gradient-1: linear-gradient(45deg, #4361ee, #4cc9f0);
-      --gradient-2: linear-gradient(45deg, #f72585, #4361ee);
       --box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
-    
+
     body {
       font-family: 'Poppins', sans-serif;
-      text-align: center;
       background-color: #f8f9fa;
+      color: var(--dark-color);
+      text-align: center;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      color: var(--dark-color);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
     }
 
     .header {
       background: var(--gradient-1);
       color: white;
-      padding: 20px 0;
-      margin-bottom: 30px;
+      padding: 25px 0;
       box-shadow: var(--box-shadow);
     }
 
-    h1 {
-      margin-top: 30px;
-      font-size: 2rem;
-      color: var(--dark-color);
-    }
+    h1 { margin: 10px 0; }
 
-    /* Card Styles */
     .card {
-      background-color: white;
+      background: #fff;
       padding: 25px;
       margin: 15px;
-      border-radius: 20px;
+      border-radius: 15px;
       box-shadow: var(--box-shadow);
       width: 300px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: var(--gradient-1);
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-    
-    .card-icon {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Sensor Cards */
-    .sensor-card {
-      text-align: center;
-      position: relative;
+      display: inline-block;
+      vertical-align: top;
     }
 
     .sensor-value {
-      font-size: 3rem;
-      font-weight: 600;
-      margin: 15px 0;
+      font-size: 2.5rem;
       background: var(--gradient-1);
       -webkit-background-clip: text;
-      background-clip: text;
       -webkit-text-fill-color: transparent;
-      display: inline-block;
+      margin: 10px 0;
     }
 
-    .sensor-label {
-      font-size: 1.1rem;
-      color: #666;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .sensor-info {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
-    }
-
-    /* Control Cards */
-    .control-card h2 {
-      margin-bottom: 15px;
-      color: var(--dark-color);
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: var(--success-color);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    /* Login Form */
-    #loginForm {
-      max-width: 400px;
-      margin: 80px auto 20px;
-      background: white;
-      padding: 30px 20px;
+    .status-badge {
+      padding: 5px 12px;
       border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status-badge.success { background: rgba(76,201,240,0.15); color: var(--success-color); }
+    .status-badge.warning { background: rgba(247,37,133,0.15); color: var(--warning-color); }
+
+    /* Login form */
+    #loginForm {
+      margin: 80px auto;
+      max-width: 400px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: var(--box-shadow);
     }
 
     #loginForm input {
       width: 100%;
-      padding: 12px 15px;
-      margin: 10px 0 20px;
-      font-size: 1rem;
+      padding: 10px;
+      margin: 10px 0;
       border: 1.5px solid #ccc;
       border-radius: 10px;
-      box-sizing: border-box;
     }
 
     #loginForm button {
-      width: 100%;
-      background-color: var(--primary-color);
+      background: var(--primary-color);
       color: white;
+      border: none;
       padding: 12px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #loginForm button:hover {
-      background-color: #1976d2;
-    }
-
-    /* Dashboard Layout */
-    #dashboard {
-      display: none;
-    }
-
-    .dashboard-container {
-      max-width: 1200px;
-      margin: 20px auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .sensor-section, .control-section {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
       width: 100%;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
     }
 
+    #dashboard { display: none; padding: 20px; }
     #logoutBtn {
-      background-color: var(--danger-color);
+      background: #f72585;
       color: white;
-      padding: 12px 25px;
+      padding: 10px 20px;
       border: none;
       border-radius: 10px;
+      margin-top: 20px;
       cursor: pointer;
-      margin-top: 20px;
-      font-size: 16px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .card {
-        width: 100%;
-        margin: 10px 0;
-      }
-      
-      .dashboard-container {
-        padding: 0 10px;
-      }
-    }
-
-    /* Charts */
-    .chart-container {
-      margin-top: 20px;
-      padding: 15px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: var(--box-shadow);
-      height: 200px;
-    }
-
-    .chart-title {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
-
-    .status-badge {
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-top: 10px;
-    }
-
-    .status-badge.success {
-      background: rgba(76, 201, 240, 0.1);
-      color: var(--success-color);
-    }
-
-    .status-badge.warning {
-      background: rgba(247, 37, 133, 0.1);
-      color: var(--warning-color);
-    }
-
-    footer {
-      padding: 20px;
-      color: #666;
-      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <h1>Smart Home Dashboard</h1>
-
-  <!-- Login Form -->
+  <!-- Login -->
   <div id="loginForm">
-    <input type="email" id="email" placeholder="Enter Email" required />
-    <input type="password" id="password" placeholder="Enter Password" required />
+    <h2>Login Smart Home</h2>
+    <input type="email" id="email" placeholder="Email" value="aldisyahputra696@gmail.com" />
+    <input type="password" id="password" placeholder="Password" value="Admin123" />
     <button id="loginBtn">Login</button>
   </div>
 
   <!-- Dashboard -->
   <div id="dashboard">
     <div class="header">
-      <h1>Smart Home Monitor</h1>
-      <p>Real-time Environmental Monitoring System</p>
+      <h1>Smart Home Dashboard</h1>
+      <p>Monitoring Suhu, Kelembapan, dan Cahaya</p>
     </div>
-    
-    <div class="container">
-      <div class="dashboard-container">
-        <!-- Sensor Section -->
-        <div class="sensor-section">
-          <div class="card sensor-card">
-            <span class="material-icons card-icon">thermostat</span>
-            <div class="sensor-label">Temperature</div>
-            <div class="sensor-value" id="temperature">--°C</div>
-            <div class="sensor-info">
-              <span class="status-badge success">Normal</span>
-            </div>
-            <div class="chart-title">24-Hour Temperature History</div>
-            <div id="tempChart" class="chart-container"></div>
-          </div>
 
-          <div class="card sensor-card">
-            <span class="material-icons card-icon">water_drop</span>
-            <div class="sensor-label">Humidity</div>
-            <div class="sensor-value" id="humidity">--%</div>
-            <div class="sensor-info">
-              <span class="status-badge success">Optimal</span>
-            </div>
-            <div class="chart-title">24-Hour Humidity History</div>
-            <div id="humidChart" class="chart-container"></div>
-          </div>
+    <div id="sensorCards">
+      <div class="card">
+        <h3>Suhu</h3>
+        <div id="temperature" class="sensor-value">-- °C</div>
+        <span class="status-badge" id="tempStatus">Memuat...</span>
+      </div>
 
-          <div class="card sensor-card">
-            <span class="material-icons card-icon">light_mode</span>
-            <div class="sensor-label">Light Level</div>
-            <div class="sensor-value" id="lightLevel">--</div>
-            <div class="sensor-info">
-              <span id="lightStatus" class="status-badge">Calculating...</span>
-            </div>
-            <div class="chart-title">24-Hour Light Level History</div>
-            <div id="lightChart" class="chart-container"></div>
-          </div>
-        </div>
+      <div class="card">
+        <h3>Kelembapan</h3>
+        <div id="humidity" class="sensor-value">-- %</div>
+        <span class="status-badge" id="humidStatus">Memuat...</span>
+      </div>
 
-      <!-- Control Section -->
-      <div class="control-section">
-        <div class="card control-card">
-          <h2>Living Room Light</h2>
-          <label class="switch">
-            <input type="checkbox" id="light1">
-            <span class="slider"></span>
-          </label>
-          <p>Auto Mode: <span id="light1Auto">OFF</span></p>
-        </div>
-
-        <div class="card control-card">
-          <h2>Bedroom Light</h2>
-          <label class="switch">
-            <input type="checkbox" id="light2">
-            <span class="slider"></span>
-          </label>
-          <p>Auto Mode: <span id="light2Auto">OFF</span></p>
-        </div>
-
-        <div class="card control-card">
-          <h2>Kitchen Light</h2>
-          <label class="switch">
-            <input type="checkbox" id="light3">
-            <span class="slider"></span>
-          </label>
-          <p>Auto Mode: <span id="light3Auto">OFF</span></p>
-        </div>
+      <div class="card">
+        <h3>Tingkat Cahaya</h3>
+        <div id="lightLevel" class="sensor-value">-- %</div>
+        <span class="status-badge" id="lightStatus">Memuat...</span>
       </div>
     </div>
 
     <button id="logoutBtn">Logout</button>
   </div>
 
-  <footer>
-    Smart Home System - Created by Aldi Syahputra
-  </footer>
-
-  <!-- Chart.js for nice graphs -->
+  <!-- Firebase SDK & Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js';
-    import { getAuth, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js';
-    import { getDatabase, ref, onValue, set } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js';
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
 
-    // Your Firebase configuration
+    // === Firebase Config (versi terbaru) ===
     const firebaseConfig = {
-      apiKey: "AIzaSyAm9c62Gxcy2jFBNHQsBGz-R67Y6Fph_Ps",
+      apiKey: "AIzaSyC3SBYQvIzAO5ZigAFmN-qRQvi5Hq6mVEk",
       authDomain: "smarthome-5320a.firebaseapp.com",
       databaseURL: "https://smarthome-5320a-default-rtdb.firebaseio.com",
       projectId: "smarthome-5320a",
@@ -412,154 +165,51 @@
       appId: "1:430840264108:web:b9b19a88b0fb56ba25b609"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // Login functionality
-    document.getElementById('loginBtn').addEventListener('click', () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    // === Login ===
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          document.getElementById('loginForm').style.display = 'none';
-          document.getElementById('dashboard').style.display = 'block';
-          initializeDashboard();
+        .then(() => {
+          document.getElementById("loginForm").style.display = "none";
+          document.getElementById("dashboard").style.display = "block";
+          listenToSensors();
         })
-        .catch((error) => {
-          alert('Login failed: ' + error.message);
-        });
+        .catch((e) => alert("Login gagal: " + e.message));
     });
 
-    // Logout functionality
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      signOut(auth).then(() => {
-        document.getElementById('dashboard').style.display = 'none';
-        document.getElementById('loginForm').style.display = 'block';
-        document.getElementById('email').value = '';
-        document.getElementById('password').value = '';
-      }).catch((error) => {
-        alert('Logout failed: ' + error.message);
-      });
+    // === Logout ===
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth);
+      document.getElementById("dashboard").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
     });
 
-    // Initialize charts
-    function createChart(elementId, label, color, options = {}) {
-      const ctx = document.getElementById(elementId).getContext('2d');
-      return new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: [],
-          datasets: [{
-            label: label,
-            data: [],
-            borderColor: color,
-            backgroundColor: color + '20',
-            tension: 0.4,
-            fill: true
-          }]
-        },
-        options: {
-          ...{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                grid: {
-                  display: false
-                }
-              },
-              x: {
-                grid: {
-                  display: false
-                }
-              }
-            }
-          },
-          ...options
-        }
-      });
-    }
-
-    let tempChart, humidChart, lightChart;
-
-    function initializeDashboard() {
-      // Initialize charts
-      tempChart = createChart('tempChart', 'Temperature History');
-      humidChart = createChart('humidChart', 'Humidity History');
-      lightChart = createChart('lightChart', 'Light Level History');
-
-      // Listen to sensor data
-      const sensorRef = ref(db, 'sensors');
+    // === Listen to Firebase Realtime Database ===
+    function listenToSensors() {
+      const sensorRef = ref(db, "sensors");
       onValue(sensorRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
-          // Update current values
-      document.getElementById('temperature').textContent = `${data.temperature.toFixed(1)}°C`;
-      document.getElementById('humidity').textContent = `${data.humidity.toFixed(1)}%`;
-      document.getElementById('lightLevel').textContent = `${data.lightLevel}%`;
-      
-      // Update light status badge
-      const lightStatus = document.getElementById('lightStatus');
-      if (data.lightLevel < 50) {
-        lightStatus.textContent = 'Low Light';
-        lightStatus.className = 'status-badge warning';
-      } else {
-        lightStatus.textContent = 'Good Light';
-        lightStatus.className = 'status-badge success';
-      }          // Update charts
-          updateChart(tempChart, data.temperature);
-          updateChart(humidChart, data.humidity);
-          updateChart(lightChart, data.lightLevel);
+          document.getElementById("temperature").innerText = data.temperature.toFixed(1) + " °C";
+          document.getElementById("humidity").innerText = data.humidity.toFixed(1) + " %";
+          document.getElementById("lightLevel").innerText = data.lightLevel + " %";
+
+          document.getElementById("tempStatus").innerText = data.temperature > 30 ? "Panas" : "Normal";
+          document.getElementById("tempStatus").className = data.temperature > 30 ? "status-badge warning" : "status-badge success";
+
+          document.getElementById("humidStatus").innerText = data.humidity < 40 ? "Kering" : "Optimal";
+          document.getElementById("humidStatus").className = data.humidity < 40 ? "status-badge warning" : "status-badge success";
+
+          document.getElementById("lightStatus").innerText = data.lightLevel < 50 ? "Gelap" : "Terang";
+          document.getElementById("lightStatus").className = data.lightLevel < 50 ? "status-badge warning" : "status-badge success";
         }
       });
-
-      // Listen to light states
-      const lightsRef = ref(db, 'lights');
-      onValue(lightsRef, (snapshot) => {
-        const lights = snapshot.val();
-        if (lights) {
-          ['1', '2', '3'].forEach(id => {
-            const light = document.getElementById(`light${id}`);
-            const autoSpan = document.getElementById(`light${id}Auto`);
-            if (lights[id]) {
-              light.checked = lights[id].state;
-              autoSpan.textContent = lights[id].auto ? 'ON' : 'OFF';
-            }
-          });
-        }
-      });
-
-      // Setup light controls
-      ['1', '2', '3'].forEach(id => {
-        document.getElementById(`light${id}`).addEventListener('change', (e) => {
-          set(ref(db, `lights/${id}/state`), e.target.checked);
-        });
-      });
-    }
-
-    function updateChart(chart, value) {
-      const now = new Date();
-      const time = now.toLocaleTimeString();
-      
-      chart.data.labels.push(time);
-      chart.data.datasets[0].data.push(value);
-
-      // Keep only last 10 points
-      if (chart.data.labels.length > 10) {
-        chart.data.labels.shift();
-        chart.data.datasets[0].data.shift();
-      }
-
-      chart.update();
     }
   </script>
 </body>
