@@ -7,7 +7,7 @@
 
   <!-- Material Icons & Fonts -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -15,110 +15,468 @@
       --accent-color: #8ac926;
       --warning-color: #f72585;
       --dark-color: #212121;
-      --gradient-1: linear-gradient(45deg, #2b9348, #8ac926);
-      --box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+      --gradient-1: linear-gradient(135deg, #2b9348 0%, #55a630 50%, #8ac926 100%);
+      --gradient-2: linear-gradient(135deg, #1a5928 0%, #2b9348 100%);
+      --box-shadow: 0 10px 40px rgba(43, 147, 72, 0.15);
+      --card-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f3f7f4;
+      background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
       color: var(--dark-color);
-      text-align: center;
-      margin: 0;
-      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      opacity: 0.3;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.3;
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Header */
     .header {
       background: var(--gradient-1);
       color: white;
-      padding: 24px 0;
+      padding: 32px 20px;
       box-shadow: var(--box-shadow);
+      position: relative;
+      z-index: 10;
+      overflow: hidden;
     }
 
-    h1 { margin: 8px 0; font-size: 28px; }
-    p.lead { margin: 0; opacity: 0.95; }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: pulse 15s ease-in-out infinite;
+    }
 
-    .container { padding: 18px; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
 
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 { 
+      margin: 0 0 8px 0; 
+      font-size: 32px; 
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      animation: slideDown 0.8s ease-out;
+    }
+
+    p.lead { 
+      margin: 0; 
+      opacity: 0.95; 
+      font-size: 16px;
+      animation: slideDown 0.8s ease-out 0.2s both;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Container */
+    .container { 
+      padding: 30px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 5;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    /* Card Styles */
     .card {
-      background: #fff;
-      padding: 20px;
-      margin: 12px;
-      border-radius: 12px;
-      box-shadow: var(--box-shadow);
-      width: 280px;
-      display: inline-block;
-      vertical-align: top;
+      background: white;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
       text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: fadeInUp 0.6s ease-out backwards;
     }
 
-    .card h3 { margin: 0 0 6px 0; font-size: 16px; }
-    .sensor-value {
-      font-size: 2.2rem;
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 50px rgba(43, 147, 72, 0.25);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient-1);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--gradient-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .card:hover .card-icon {
+      animation: bounce 0.6s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .card-icon .material-icons {
+      color: white;
+      font-size: 28px;
+    }
+
+    .card h3 { 
+      margin: 0; 
+      font-size: 16px;
       font-weight: 600;
+      color: #555;
+    }
+
+    .sensor-value {
+      font-size: 2.8rem;
+      font-weight: 700;
       color: var(--dark-color);
-      margin: 8px 0;
+      margin: 12px 0;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: numberPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes numberPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
     .status-badge {
-      padding: 6px 12px;
-      border-radius: 14px;
-      font-size: 0.8rem;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
       font-weight: 600;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      animation: fadeIn 0.5s ease;
     }
 
-    .status-badge.ok { background: rgba(138,201,38,0.12); color: var(--accent-color); }
-    .status-badge.warn { background: rgba(247,37,133,0.12); color: var(--warning-color); }
-    .status-badge.alert { background: rgba(255,99,71,0.12); color: #ff6347; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-    /* Login form */
+    .status-badge .material-icons {
+      font-size: 16px;
+    }
+
+    .status-badge.ok { 
+      background: rgba(138,201,38,0.15); 
+      color: var(--accent-color);
+      border: 2px solid rgba(138,201,38,0.3);
+    }
+    .status-badge.warn { 
+      background: rgba(247,37,133,0.15); 
+      color: var(--warning-color);
+      border: 2px solid rgba(247,37,133,0.3);
+    }
+    .status-badge.alert { 
+      background: rgba(255,99,71,0.15); 
+      color: #ff6347;
+      border: 2px solid rgba(255,99,71,0.3);
+      animation: alertPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes alertPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,99,71,0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255,99,71,0); }
+    }
+
+    .meta { 
+      font-size: 0.85rem; 
+      color: #888; 
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta .material-icons {
+      font-size: 16px;
+    }
+
+    /* Login Form */
     #loginForm {
-      margin: 70px auto;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       max-width: 420px;
-      background: #fff;
-      padding: 22px;
-      border-radius: 12px;
-      box-shadow: var(--box-shadow);
+      width: 90%;
+      background: white;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      z-index: 1000;
+      animation: zoomIn 0.5s ease-out;
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    #loginForm h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     #loginForm input {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1.5px solid #ddd;
-      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 12px 0;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #loginForm input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(43, 147, 72, 0.1);
     }
 
     #loginForm button {
-      background: var(--primary-color);
+      background: var(--gradient-1);
       color: white;
       border: none;
-      padding: 12px;
+      padding: 14px;
       width: 100%;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    #loginForm button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(43, 147, 72, 0.3);
+    }
+
+    #loginForm button:active {
+      transform: translateY(0);
     }
 
     #dashboard { display: none; }
-    #logoutBtn {
-      background: #f72585;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      margin-top: 18px;
-      cursor: pointer;
+
+    /* Footer Controls */
+    .footer-controls {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      animation: fadeInUp 0.6s ease-out 0.6s backwards;
     }
 
-    .meta { font-size: 0.85rem; color: #666; margin-top: 8px; }
+    .last-updated {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    .last-updated .material-icons {
+      font-size: 18px;
+      color: var(--primary-color);
+    }
+
+    #logoutBtn {
+      background: var(--gradient-2);
+      color: white;
+      padding: 12px 32px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #logoutBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(247, 37, 133, 0.3);
+    }
+
+    #logoutBtn .material-icons {
+      font-size: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 24px; }
+      p.lead { font-size: 14px; }
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .sensor-value {
+        font-size: 2.2rem;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(43, 147, 72, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
+  <!-- Background Animation -->
+  <div class="bg-animation" id="bgAnimation"></div>
+
   <!-- Login -->
   <div id="loginForm">
-    <h2>Login Smart Plant Green House</h2>
+    <h2>🌱 Smart Plant Green House</h2>
     <input type="email" id="email" placeholder="Email" value="aldisyahputra696@gmail.com" />
     <input type="password" id="password" placeholder="Password" value="Admin123" />
     <button id="loginBtn">Login</button>
@@ -127,62 +485,110 @@
   <!-- Dashboard -->
   <div id="dashboard">
     <div class="header">
-      <h1>Smart Plant Green House</h1>
-      <p class="lead">Monitoring Kelembaban Tanah, Cahaya, Keamanan & Deteksi Hama</p>
-    </div>
-
-    <div class="container" id="sensorCards">
-      <div class="card">
-        <h3>Kelembaban Tanah</h3>
-        <div id="soilMoisture" class="sensor-value">-- %</div>
-        <span class="status-badge" id="soilStatus">Memuat...</span>
-        <div class="meta" id="soilNote">Ambang kering: &lt; 40%</div>
-      </div>
-
-      <div class="card">
-        <h3>Tingkat Cahaya</h3>
-        <div id="lightLevel" class="sensor-value">-- %</div>
-        <span class="status-badge" id="lightStatus">Memuat...</span>
-        <div class="meta">Gunakan data ini untuk kontrol lampu / lokasi</div>
-      </div>
-
-      <div class="card">
-        <h3>Deteksi Gerakan (PIR)</h3>
-        <div id="motion" class="sensor-value">--</div>
-        <span class="status-badge" id="motionStatus">Memuat...</span>
-        <div class="meta">Mendeteksi hewan atau orang</div>
-      </div>
-
-      <div class="card">
-        <h3>Deteksi Api</h3>
-        <div id="flame" class="sensor-value">--</div>
-        <span class="status-badge" id="flameStatus">Memuat...</span>
-        <div class="meta">Peringatan dini kebakaran</div>
-      </div>
-
-      <div class="card">
-        <h3>Deteksi Objek / Jarak</h3>
-        <div id="object" class="sensor-value">--</div>
-        <span class="status-badge" id="objectStatus">Memuat...</span>
-        <div class="meta">Sensor jarak / objek (cm atau 'Ada')</div>
+      <div class="header-content">
+        <h1>🌱 Smart Plant Green House</h1>
+        <p class="lead">Monitoring Kelembaban Tanah, Cahaya, Keamanan & Deteksi Hama</p>
       </div>
     </div>
 
-    <div style="margin-top:16px;">
-      <div class="meta" id="lastUpdated">Last updated: -</div>
-    </div>
+    <div class="container">
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">
+              <span class="material-icons">water_drop</span>
+            </div>
+            <h3>Kelembaban Tanah</h3>
+          </div>
+          <div id="soilMoisture" class="sensor-value">-- %</div>
+          <span class="status-badge" id="soilStatus"><span class="loading"></span></span>
+          <div class="meta">
+            <span class="material-icons">info</span>
+            <span id="soilNote">Ambang kering: &lt; 40%</span>
+          </div>
+        </div>
 
-    <button id="logoutBtn">Logout</button>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">
+              <span class="material-icons">light_mode</span>
+            </div>
+            <h3>Tingkat Cahaya</h3>
+          </div>
+          <div id="lightLevel" class="sensor-value">-- %</div>
+          <span class="status-badge" id="lightStatus"><span class="loading"></span></span>
+          <div class="meta">
+            <span class="material-icons">info</span>
+            <span>Kontrol lampu / lokasi</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">
+              <span class="material-icons">sensors</span>
+            </div>
+            <h3>Deteksi Gerakan (PIR)</h3>
+          </div>
+          <div id="motion" class="sensor-value">--</div>
+          <span class="status-badge" id="motionStatus"><span class="loading"></span></span>
+          <div class="meta">
+            <span class="material-icons">info</span>
+            <span>Mendeteksi hewan atau orang</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">
+              <span class="material-icons">local_fire_department</span>
+            </div>
+            <h3>Deteksi Api</h3>
+          </div>
+          <div id="flame" class="sensor-value">--</div>
+          <span class="status-badge" id="flameStatus"><span class="loading"></span></span>
+          <div class="meta">
+            <span class="material-icons">info</span>
+            <span>Peringatan dini kebakaran</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">
+              <span class="material-icons">straighten</span>
+            </div>
+            <h3>Deteksi Objek / Jarak</h3>
+          </div>
+          <div id="object" class="sensor-value">--</div>
+          <span class="status-badge" id="objectStatus"><span class="loading"></span></span>
+          <div class="meta">
+            <span class="material-icons">info</span>
+            <span>Sensor jarak (cm)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-controls">
+        <div class="last-updated">
+          <span class="material-icons">schedule</span>
+          <span id="lastUpdated">Last updated: -</span>
+        </div>
+        <br>
+        <button id="logoutBtn">
+          <span class="material-icons">logout</span>
+          Logout
+        </button>
+      </div>
+    </div>
   </div>
 
-  <!-- Firebase SDK & Chart.js (Chart.js kept if you later add charts)-->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
 
-    // === Firebase Config (versi terbaru) ===
+    // === Firebase Config (tidak diubah) ===
     const firebaseConfig = {
       apiKey: "AIzaSyC3SBYQvIzAO5ZigAFmN-qRQvi5Hq6mVEk",
       authDomain: "smarthome-5320a.firebaseapp.com",
@@ -197,6 +603,23 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
+    // Create animated background leaves
+    function createLeaves() {
+      const bgAnimation = document.getElementById('bgAnimation');
+      const leafEmojis = ['🌿', '🍃', '🌱', '☘️'];
+      
+      for (let i = 0; i < 15; i++) {
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf';
+        leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+        leaf.style.left = Math.random() * 100 + '%';
+        leaf.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        leaf.style.animationDelay = Math.random() * 5 + 's';
+        bgAnimation.appendChild(leaf);
+      }
+    }
+    createLeaves();
+
     // Helper safe parse
     function safeNum(v, fallback = null) {
       if (v === undefined || v === null) return fallback;
@@ -208,6 +631,9 @@
     document.getElementById("loginBtn").addEventListener("click", () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+      const btn = document.getElementById("loginBtn");
+      btn.textContent = "Loading...";
+      btn.disabled = true;
 
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
@@ -215,7 +641,11 @@
           document.getElementById("dashboard").style.display = "block";
           listenToSensors();
         })
-        .catch((e) => alert("Login gagal: " + e.message));
+        .catch((e) => {
+          alert("Login gagal: " + e.message);
+          btn.textContent = "Login";
+          btn.disabled = false;
+        });
     });
 
     // === Logout ===
@@ -227,91 +657,86 @@
 
     // === Listen to Firebase Realtime Database ===
     function listenToSensors() {
-      // path database: gunakan node "greenhouse" untuk membedakan dari project smart home lama
       const sensorRef = ref(db, "greenhouse/sensors");
       onValue(sensorRef, (snapshot) => {
         const data = snapshot.val() || {};
 
-        // soil moisture (expected 0-100 atau analog)
+        // soil moisture
         const soil = safeNum(data.soilMoisture ?? data.soil ?? data.moisture);
         if (soil !== null) {
           document.getElementById("soilMoisture").innerText = soil.toFixed(1) + " %";
-          const soilBadge = soil < 40 ? ["status-badge warn","Kering"] : ["status-badge ok","Cukup"];
+          const soilBadge = soil < 40 ? ["status-badge warn","⚠️ Kering"] : ["status-badge ok","✓ Cukup"];
           document.getElementById("soilStatus").className = soilBadge[0];
-          document.getElementById("soilStatus").innerText = soilBadge[1];
-          document.getElementById("soilNote").innerText = "Ambang kering: < 40% (sesuaikan)";
+          document.getElementById("soilStatus").innerHTML = soilBadge[1];
         } else {
           document.getElementById("soilMoisture").innerText = "-- %";
           document.getElementById("soilStatus").className = "status-badge warn";
-          document.getElementById("soilStatus").innerText = "Tidak tersedia";
+          document.getElementById("soilStatus").innerHTML = "⚠️ Tidak tersedia";
         }
 
-        // lightLevel (0-100)
+        // lightLevel
         const light = safeNum(data.lightLevel ?? data.light);
         if (light !== null) {
           document.getElementById("lightLevel").innerText = light.toFixed(0) + " %";
-          const lightBadge = light < 50 ? ["status-badge warn","Gelap"] : ["status-badge ok","Cukup Cahaya"];
+          const lightBadge = light < 50 ? ["status-badge warn","🌙 Gelap"] : ["status-badge ok","☀️ Cukup Cahaya"];
           document.getElementById("lightStatus").className = lightBadge[0];
-          document.getElementById("lightStatus").innerText = lightBadge[1];
+          document.getElementById("lightStatus").innerHTML = lightBadge[1];
         } else {
           document.getElementById("lightLevel").innerText = "-- %";
           document.getElementById("lightStatus").className = "status-badge warn";
-          document.getElementById("lightStatus").innerText = "Tidak tersedia";
+          document.getElementById("lightStatus").innerHTML = "⚠️ Tidak tersedia";
         }
 
-        // motion (PIR) -> expect 0/1 or boolean
+        // motion (PIR)
         const motionRaw = data.motion ?? data.pir;
-        let motionText = "--";
         if (motionRaw !== undefined && motionRaw !== null) {
           const m = (motionRaw === 1 || motionRaw === true || motionRaw === "1" || motionRaw === "true");
-          motionText = m ? "Ada" : "Tidak";
-          document.getElementById("motion").innerText = motionText;
+          document.getElementById("motion").innerText = m ? "Ada" : "Tidak";
           document.getElementById("motionStatus").className = m ? "status-badge alert" : "status-badge ok";
-          document.getElementById("motionStatus").innerText = m ? "Terdeteksi" : "Aman";
+          document.getElementById("motionStatus").innerHTML = m ? "🚨 Terdeteksi" : "✓ Aman";
         } else {
           document.getElementById("motion").innerText = "--";
           document.getElementById("motionStatus").className = "status-badge warn";
-          document.getElementById("motionStatus").innerText = "Tidak tersedia";
+          document.getElementById("motionStatus").innerHTML = "⚠️ Tidak tersedia";
         }
 
-        // flame sensor -> expect boolean or numeric (1 detected)
+        // flame sensor
         const flameRaw = data.flame ?? data.flameDetected ?? data.fire;
         if (flameRaw !== undefined && flameRaw !== null) {
           const f = (flameRaw === 1 || flameRaw === true || flameRaw === "1" || flameRaw === "true");
           document.getElementById("flame").innerText = f ? "Terbakar!" : "Aman";
           document.getElementById("flameStatus").className = f ? "status-badge alert" : "status-badge ok";
-          document.getElementById("flameStatus").innerText = f ? "Bahaya" : "Aman";
+          document.getElementById("flameStatus").innerHTML = f ? "🔥 Bahaya" : "✓ Aman";
         } else {
           document.getElementById("flame").innerText = "--";
           document.getElementById("flameStatus").className = "status-badge warn";
-          document.getElementById("flameStatus").innerText = "Tidak tersedia";
+          document.getElementById("flameStatus").innerHTML = "⚠️ Tidak tersedia";
         }
 
-        // object detection / distance -> could be cm value or boolean
+        // object detection / distance
         const objRaw = data.object ?? data.distance ?? data.ultrasonic;
         if (objRaw !== undefined && objRaw !== null) {
           const objNum = safeNum(objRaw);
           if (objNum !== null) {
             document.getElementById("object").innerText = objNum.toFixed(1) + " cm";
             document.getElementById("objectStatus").className = objNum < 20 ? "status-badge alert" : "status-badge ok";
-            document.getElementById("objectStatus").innerText = objNum < 20 ? "Dekat" : "Jauh";
+            document.getElementById("objectStatus").innerHTML = objNum < 20 ? "📍 Dekat" : "✓ Jauh";
           } else {
-            // boolean presence
             const present = (objRaw === 1 || objRaw === true || objRaw === "1" || objRaw === "true");
             document.getElementById("object").innerText = present ? "Ada" : "Tidak";
             document.getElementById("objectStatus").className = present ? "status-badge alert" : "status-badge ok";
-            document.getElementById("objectStatus").innerText = present ? "Terdeteksi" : "Tidak";
+            document.getElementById("objectStatus").innerHTML = present ? "📍 Terdeteksi" : "✓ Tidak";
           }
         } else {
           document.getElementById("object").innerText = "--";
           document.getElementById("objectStatus").className = "status-badge warn";
-          document.getElementById("objectStatus").innerText = "Tidak tersedia";
+          document.getElementById("objectStatus").innerHTML = "⚠️ Tidak tersedia";
         }
 
         // last updated
         const ts = data.timestamp ?? data.lastUpdated ?? Date.now();
         const d = new Date(ts);
-        document.getElementById("lastUpdated").innerText = "Last updated: " + d.toLocaleString();
+        document.getElementById("lastUpdated").innerText = "Last updated: " + d.toLocaleString('id-ID');
 
       }, (error) => {
         console.error("Firebase read failed: ", error);
